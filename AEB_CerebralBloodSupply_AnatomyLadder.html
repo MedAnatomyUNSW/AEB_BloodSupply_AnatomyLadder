@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEB Anatomy Ladder | Cerebral Blood Supply</title>
+<style>
+:root{
+  --yellow:#ffd500;
+  --navy:#17324a;
+  --bg:#f3f6f8;
+  --card:#fff;
+  --ink:#1d2832;
+  --muted:#6b7884;
+  --line:#dbe3e9;
+  --green:#4f9460;
+  --greenbg:#e5f4e9;
+  --red:#c94d4d;
+  --redbg:#fae7e7;
+  --shadow:0 12px 34px rgba(22,50,74,.11);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Avenir,Inter,"Segoe UI",Arial,sans-serif;
+}
+header{
+  background:var(--navy);
+  color:#fff;
+  border-bottom:7px solid var(--yellow);
+}
+.head{
+  max-width:1080px;
+  margin:auto;
+  padding:22px 18px 19px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.kicker{
+  color:var(--yellow);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+h1{
+  margin:3px 0 0;
+  font-size:clamp(38px,7vw,66px);
+  line-height:.9;
+  letter-spacing:-.05em;
+}
+.tagline{
+  margin:9px 0 0;
+  color:#d7e3ec;
+  font-size:14px;
+}
+.brand{
+  text-align:right;
+  color:#d7e3ec;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+main{
+  max-width:1080px;
+  margin:auto;
+  padding:22px 14px 42px;
+}
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.hidden{display:none!important}
+.setup{padding:24px}
+.setup h2,.results h2{margin:0 0 8px;color:var(--navy)}
+.setup p{margin:0 0 18px;color:var(--muted);line-height:1.5}
+.picker{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.pick{
+  border:2px solid var(--line);
+  background:#fff;
+  border-radius:13px;
+  min-height:85px;
+  padding:13px;
+  text-align:left;
+  cursor:pointer;
+  font:inherit;
+}
+.pick:hover{background:#f8fafb}
+.pick.active{border-color:var(--navy);background:#edf4f9}
+.pick strong{display:block;color:var(--navy);font-size:16px}
+.pick span{display:block;color:var(--muted);font-size:11px;line-height:1.35;margin-top:4px}
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+.primary,.secondary,.danger{
+  border:0;
+  border-radius:10px;
+  min-height:44px;
+  padding:10px 15px;
+  font:inherit;
+  font-weight:900;
+  cursor:pointer;
+}
+.primary{background:var(--navy);color:#fff}
+.secondary{background:#edf2f5;color:#2b4051}
+.danger{background:#fff0f0;color:#963030}
+button:focus-visible,input:focus-visible{
+  outline:3px solid #79afd9;
+  outline-offset:2px;
+}
+.game-top{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  padding:12px 14px;
+  background:#f8fafb;
+  border-bottom:1px solid var(--line);
+}
+.stat{text-align:center}
+.stat small{
+  display:block;
+  color:#82909c;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  font-size:9px;
+  font-weight:900;
+}
+.stat strong{
+  display:block;
+  margin-top:2px;
+  color:var(--navy);
+  font-size:18px;
+}
+.game-body{
+  display:grid;
+  grid-template-columns:minmax(280px,.75fr) minmax(370px,1.25fr);
+  gap:20px;
+  padding:20px;
+}
+.info h2{
+  margin:0;
+  color:var(--navy);
+  font-size:27px;
+}
+.sub{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+  margin:5px 0 16px;
+}
+.cluebox{
+  border-left:5px solid var(--yellow);
+  background:#fff8d7;
+  border-radius:11px;
+  padding:12px;
+  margin-bottom:12px;
+}
+.cluebox small{
+  display:block;
+  color:#79670d;
+  text-transform:uppercase;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.cluebox strong{
+  display:block;
+  margin-top:4px;
+  color:var(--navy);
+  font-size:15px;
+  line-height:1.35;
+}
+.answer-form{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+}
+.answer-form input{
+  min-width:0;
+  min-height:46px;
+  border:2px solid #bec8d1;
+  border-radius:10px;
+  padding:10px 12px;
+  font:inherit;
+  font-size:16px;
+}
+.answer-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:9px;
+}
+.answer-actions button{flex:1 1 130px}
+.feedback{
+  min-height:28px;
+  margin-top:10px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:850;
+  line-height:1.35;
+}
+.feedback.good,.feedback.bad,.feedback.info{padding:9px 10px}
+.feedback.good{background:var(--greenbg);color:#34713f}
+.feedback.bad{background:var(--redbg);color:#923535}
+.feedback.info{background:#edf4f8;color:#3d5b72}
+.ladder-panel{
+  min-width:0;
+  background:#f7f9fa;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:16px;
+}
+.ladder{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0;
+}
+.rung{
+  width:min(100%,520px);
+  min-height:54px;
+  border-radius:10px;
+  border:2px solid #d8e0e6;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:9px 12px;
+  color:#87929b;
+  font-size:14px;
+  font-weight:900;
+  position:relative;
+}
+.rung.start{
+  background:var(--navy);
+  border-color:var(--navy);
+  color:white;
+}
+.rung.solved{
+  background:var(--greenbg);
+  border-color:#81b88c;
+  color:#2f713d;
+}
+.rung.current{
+  border-color:var(--yellow);
+  background:#fffbea;
+  color:#735f09;
+}
+.rung.revealed{
+  background:#f1f3f5;
+  border-color:#cbd3d9;
+  color:#68747d;
+}
+.connector{
+  height:20px;
+  width:5px;
+  background:#b9c5ce;
+}
+.rung-num{
+  position:absolute;
+  left:9px;
+  top:7px;
+  color:inherit;
+  opacity:.65;
+  font-size:9px;
+  font-weight:900;
+}
+.results{padding:24px;text-align:center}
+.big{
+  font-size:58px;
+  line-height:1;
+  font-weight:950;
+  color:var(--navy);
+  letter-spacing:-.05em;
+  margin:16px 0 5px;
+}
+.summary{color:var(--muted);margin-bottom:16px}
+.footer{
+  margin-top:17px;
+  text-align:center;
+  color:#84909a;
+  font-size:11px;
+}
+@media(max-width:800px){
+  .game-body{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+  .picker{grid-template-columns:1fr}
+  .game-top{grid-template-columns:repeat(2,1fr)}
+  .answer-form{grid-template-columns:1fr}
+  .brand{text-align:left}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div>
+      <div class="kicker">Ageing &amp; Endings B • Neuroanatomy</div>
+      <h1>Anatomy Ladder</h1>
+      <div class="tagline">Cerebral Blood Supply</div>
+    </div>
+    <div class="brand">Six core topics<br>lecture revision</div>
+  </div>
+</header>
+
+<main>
+  <section class="panel setup" id="setup">
+    <h2>Choose a ladder</h2>
+    <p>Choose a broad topic and work through its key anatomy, function and clinical relationships one rung at a time.</p>
+    <div class="picker" id="picker"></div>
+    <div class="actions">
+      <button class="primary" id="startBtn" type="button">Start selected ladder</button>
+      <button class="secondary" id="randomBtn" type="button">Random ladder</button>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="game">
+    <div class="game-top">
+      <div class="stat"><small>Rung</small><strong id="rungStat">1 / 5</strong></div>
+      <div class="stat"><small>Score</small><strong id="scoreStat">0</strong></div>
+      <div class="stat"><small>Streak</small><strong id="streakStat">0</strong></div>
+      <div class="stat"><small>Hints</small><strong id="hintStat">0</strong></div>
+      <div class="stat"><small>Reveals</small><strong id="revealStat">0</strong></div>
+    </div>
+
+    <div class="game-body">
+      <section class="info">
+        <h2 id="ladderTitle"></h2>
+        <div class="sub" id="ladderSub"></div>
+
+        <div class="cluebox">
+          <small id="clueLabel">Next rung</small>
+          <strong id="clueText"></strong>
+        </div>
+
+        <form class="answer-form" id="answerForm">
+          <input id="answerInput" autocomplete="off" spellcheck="false" placeholder="Type the next rung…">
+          <button class="primary" type="submit">Climb</button>
+        </form>
+
+        <div class="answer-actions">
+          <button class="secondary" id="hintBtn" type="button">First-letter hint</button>
+          <button class="danger" id="revealBtn" type="button">Reveal rung</button>
+        </div>
+
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+      </section>
+
+      <section class="ladder-panel">
+        <div class="ladder" id="ladder"></div>
+      </section>
+    </div>
+  </section>
+
+  <section class="panel results hidden" id="results">
+    <h2>Ladder complete 🧠</h2>
+    <div class="big" id="finalScore"></div>
+    <div class="summary" id="finalSummary"></div>
+    <div class="actions" style="justify-content:center">
+      <button class="primary" id="againBtn" type="button">Choose another ladder</button>
+      <button class="secondary" id="repeatBtn" type="button">Repeat this ladder</button>
+    </div>
+  </section>
+
+  <div class="footer">Based on the Cerebral Blood Supply lecture.</div>
+</main>
+
+<script>
+(() => {
+const LADDERS = [{"title": "Posterior Circulation", "subtitle": "Vertebral, basilar and brainstem/cerebellar supply", "start": "Posterior circulation", "steps": [{"answer": "Vertebral artery", "aliases": ["vertebral artery", "vertebral arteries"], "clue": "Which paired arteries provide the posterior circulation blood supply?"}, {"answer": "Subclavian artery", "aliases": ["subclavian artery", "subclavian arteries"], "clue": "From which arteries do the vertebral arteries arise?"}, {"answer": "Foramen magnum", "aliases": ["foramen magnum"], "clue": "Through which opening do the vertebral arteries enter the cranial cavity?"}, {"answer": "Posterior inferior cerebellar artery", "aliases": ["posterior inferior cerebellar artery", "pica"], "clue": "Which large, tortuous vertebral branch courses over the medullary olive?"}, {"answer": "Anterior spinal artery", "aliases": ["anterior spinal artery"], "clue": "Which single vertebral branch descends along the anterior surface of the spinal cord?"}, {"answer": "Posterior spinal arteries", "aliases": ["posterior spinal arteries", "posterior spinal artery"], "clue": "Which paired vertebral branches descend along the posterior spinal cord?"}, {"answer": "Basilar artery", "aliases": ["basilar artery", "basilar"], "clue": "Which artery is formed by union of the vertebral arteries at the pontomedullary junction?"}, {"answer": "Pontine arteries", "aliases": ["pontine arteries", "pontine artery"], "clue": "Which numerous fine branches of the basilar artery supply the pons?"}, {"answer": "Anterior inferior cerebellar artery", "aliases": ["anterior inferior cerebellar artery", "aica"], "clue": "Which basilar branch supplies the posterolateral caudal pons and anterior-inferior cerebellum?"}, {"answer": "Superior cerebellar artery", "aliases": ["superior cerebellar artery", "suca", "sca"], "clue": "Which basilar branch supplies the posterolateral rostral pons and superior cerebellum?"}, {"answer": "Posterior cerebral arteries", "aliases": ["posterior cerebral arteries", "posterior cerebral artery", "pca"], "clue": "Which paired arteries are the terminal branches of the basilar artery?"}, {"answer": "Posteromedial branches", "aliases": ["posteromedial branches", "posterior medial branches", "posteromedial group"], "clue": "Which PCA branch group supplies the medial midbrain?"}, {"answer": "Posterolateral branches", "aliases": ["posterolateral branches", "posterior lateral branches", "posterolateral group"], "clue": "Which PCA branch group supplies the lateral midbrain?"}, {"answer": "Collicular branches", "aliases": ["collicular branches", "collicular branch"], "clue": "Which PCA branches supply the posterior aspect of the midbrain?"}]}, {"title": "Anterior Circulation & Internal Carotid", "subtitle": "ICA course and its major intracranial branches", "start": "Anterior circulation", "steps": [{"answer": "Internal carotid artery", "aliases": ["internal carotid artery", "internal carotid arteries", "ica"], "clue": "Which paired arteries provide the anterior circulation blood supply?"}, {"answer": "Common carotid artery", "aliases": ["common carotid artery", "common carotid"], "clue": "At the C4 bifurcation of which artery does the internal carotid arise?"}, {"answer": "Carotid sheath", "aliases": ["carotid sheath"], "clue": "Within which fascial sheath does the internal carotid ascend through the neck?"}, {"answer": "Carotid canal", "aliases": ["carotid canal"], "clue": "Through which skull canal does the internal carotid enter?"}, {"answer": "Cavernous sinus", "aliases": ["cavernous sinus"], "clue": "Which dural venous sinus does the internal carotid enter after piercing the outer layer of dura?"}, {"answer": "Ophthalmic artery", "aliases": ["ophthalmic artery"], "clue": "Which ICA branch supplies the contents of the orbit and eye?"}, {"answer": "Anterior choroidal artery", "aliases": ["anterior choroidal artery", "acha"], "clue": "Which ICA branch supplies deep forebrain structures including the internal capsule and hippocampus?"}, {"answer": "Anterior cerebral artery", "aliases": ["anterior cerebral artery", "aca"], "clue": "Which ICA branch supplies the medial surface of the cortex and deep structures?"}, {"answer": "Middle cerebral artery", "aliases": ["middle cerebral artery", "mca"], "clue": "Which terminal ICA branch supplies most of the lateral cortical surface and deep structures?"}, {"answer": "Anterior communicating artery", "aliases": ["anterior communicating artery", "acomma", "acomm"], "clue": "Which artery connects the right and left anterior cerebral arteries?"}, {"answer": "Posterior communicating arteries", "aliases": ["posterior communicating arteries", "posterior communicating artery", "pcomma", "pcomm"], "clue": "Which arteries connect the anterior and posterior circulations?"}]}, {"title": "Cerebral Artery Territories", "subtitle": "ACA, MCA and PCA cortical distribution", "start": "Cortical arterial supply", "steps": [{"answer": "Anterior cerebral artery", "aliases": ["anterior cerebral artery", "aca"], "clue": "Which cerebral artery travels through the longitudinal fissure to the medial hemisphere?"}, {"answer": "Frontal and parietal lobes", "aliases": ["frontal and parietal lobes", "frontal parietal lobes"], "clue": "Which medial lobar surfaces are supplied by superficial ACA branches?"}, {"answer": "Paracentral lobule", "aliases": ["paracentral lobule"], "clue": "Which ACA-supplied region contains medial primary motor and somatosensory cortex for the contralateral lower limb?"}, {"answer": "Ventromedial prefrontal cortex", "aliases": ["ventromedial prefrontal cortex", "vmpfc"], "clue": "Which prefrontal region is listed within ACA territory?"}, {"answer": "Cingulate gyrus", "aliases": ["cingulate gyrus"], "clue": "Which limbic-lobe structure is listed within ACA territory?"}, {"answer": "Middle cerebral artery", "aliases": ["middle cerebral artery", "mca"], "clue": "Which cerebral artery courses through the lateral fissure and emerges onto the lateral cortical surface?"}, {"answer": "Head, upper limb and trunk", "aliases": ["head upper limb and trunk", "head, upper limb and trunk", "head upper limb trunk"], "clue": "Which contralateral body regions are represented in the lateral primary motor/somatosensory cortex supplied by the MCA?"}, {"answer": "Broca and Wernicke areas", "aliases": ["broca and wernicke areas", "broca and wernicke's areas", "broca wernicke"], "clue": "Which language areas are supplied by the MCA in the dominant hemisphere?"}, {"answer": "Primary auditory area", "aliases": ["primary auditory area", "primary auditory cortex"], "clue": "Which primary sensory cortical area is specifically listed in MCA territory?"}, {"answer": "Dorsolateral prefrontal cortex", "aliases": ["dorsolateral prefrontal cortex", "dlpfc"], "clue": "Which prefrontal region is listed in MCA territory?"}, {"answer": "Posterior cerebral artery", "aliases": ["posterior cerebral artery", "pca"], "clue": "Which cerebral artery wraps around the midbrain and supplies posterior cortical territory?"}, {"answer": "Occipital lobe", "aliases": ["occipital lobe", "occipital lobes"], "clue": "Which lobe is a major cortical territory of the PCA?"}, {"answer": "Inferior temporal lobe", "aliases": ["inferior temporal lobe", "inferior temporal lobes"], "clue": "Which temporal cortical region is also supplied by PCA superficial branches?"}, {"answer": "Primary visual area", "aliases": ["primary visual area", "primary visual cortex"], "clue": "Which primary sensory area is supplied by the PCA?"}, {"answer": "Visual association areas", "aliases": ["visual association areas", "visual association cortex"], "clue": "Which higher-order sensory areas are also supplied by the PCA?"}]}, {"title": "Circle of Willis & Deep Arterial Supply", "subtitle": "Anastomotic ring and penetrating branches", "start": "Circle of Willis", "steps": [{"answer": "Anastomotic ring", "aliases": ["anastomotic ring", "arterial ring"], "clue": "What type of arterial arrangement does the Circle of Willis form on the ventral brain?"}, {"answer": "Anterior and posterior circulations", "aliases": ["anterior and posterior circulations", "anterior posterior circulations"], "clue": "Which two arterial circulations are linked by the Circle of Willis?"}, {"answer": "Anterior communicating artery", "aliases": ["anterior communicating artery", "acomma", "acomm"], "clue": "Which single artery completes the anterior part of the arterial circle by joining the ACAs?"}, {"answer": "Posterior communicating arteries", "aliases": ["posterior communicating arteries", "posterior communicating artery", "pcomma", "pcomm"], "clue": "Which vessels link the ICA/anterior circulation to the PCAs/posterior circulation?"}, {"answer": "Anterior choroidal artery", "aliases": ["anterior choroidal artery", "acha"], "clue": "Which ICA branch supplies the choroid plexus, hippocampus and parts of the internal capsule?"}, {"answer": "Anteromedial group", "aliases": ["anteromedial group", "anteromedial branches"], "clue": "Which deep arterial group arises from the ACA?"}, {"answer": "Medial striate artery", "aliases": ["medial striate artery"], "clue": "Which large prominent artery belongs to the ACA anteromedial group?"}, {"answer": "Caudate head", "aliases": ["caudate head", "head of caudate", "head of caudate nucleus"], "clue": "Which part of the caudate is supplied by the medial striate artery?"}, {"answer": "Anterolateral group", "aliases": ["anterolateral group", "anterolateral branches", "lenticulostriate arteries", "lateral striate arteries"], "clue": "Which deep arterial group arises from the MCA?"}, {"answer": "Putamen", "aliases": ["putamen"], "clue": "Which basal ganglia structure, along with the caudate, is supplied by the MCA anterolateral group?"}, {"answer": "Posteromedial group", "aliases": ["posteromedial group", "posteromedial branches"], "clue": "Which PCA deep branch group supplies medial midbrain, medial thalamus and posterior hypothalamus?"}, {"answer": "Posterolateral group", "aliases": ["posterolateral group", "posterolateral branches"], "clue": "Which PCA deep branch group supplies posterolateral midbrain and lateral thalamus?"}]}, {"title": "Internal Capsule Blood Supply", "subtitle": "Key arterial sources and vulnerable capsule regions", "start": "Internal capsule", "steps": [{"answer": "Anterior limb", "aliases": ["anterior limb"], "clue": "Which internal capsule part lies between the caudate and lentiform nucleus?"}, {"answer": "Medial striate artery", "aliases": ["medial striate artery"], "clue": "Which ACA-derived artery supplies the anterior limb?"}, {"answer": "Genu", "aliases": ["genu"], "clue": "Which internal capsule part lies between the anterior and posterior limbs?"}, {"answer": "Anterolateral group", "aliases": ["anterolateral group", "lenticulostriate arteries", "lateral striate arteries"], "clue": "Which MCA-derived deep arterial group supplies the genu?"}, {"answer": "Corticobulbar fibres", "aliases": ["corticobulbar fibres", "corticobulbar fibers", "corticobulbar tract"], "clue": "Which major fibre type is specifically associated with the genu in the lecture?"}, {"answer": "Posterior limb", "aliases": ["posterior limb"], "clue": "Which internal capsule part lies between the thalamus and lentiform nucleus?"}, {"answer": "Anterior choroidal artery", "aliases": ["anterior choroidal artery", "acha"], "clue": "Which ICA branch shares supply of the posterior limb with MCA deep branches?"}, {"answer": "Retrolenticular part", "aliases": ["retrolenticular part", "retrolenticular limb", "retrolenticular"], "clue": "Which internal capsule part lies behind the lentiform nucleus?"}, {"answer": "Optic radiation", "aliases": ["optic radiation", "optic radiations"], "clue": "Which major fibre system is carried in the retrolenticular part?"}, {"answer": "Sublenticular part", "aliases": ["sublenticular part", "sublenticular limb", "sublenticular"], "clue": "Which internal capsule part lies beneath the lentiform nucleus?"}, {"answer": "Auditory radiation", "aliases": ["auditory radiation", "auditory radiations"], "clue": "Which major fibre system is carried in the sublenticular part?"}]}, {"title": "Cerebral Venous Drainage", "subtitle": "Cerebral veins, dural sinuses and cavernous sinus", "start": "Cerebral venous system", "steps": [{"answer": "Subarachnoid space", "aliases": ["subarachnoid space"], "clue": "In which meningeal space are the cerebral veins located?"}, {"answer": "Superficial veins", "aliases": ["superficial veins", "superficial cerebral veins"], "clue": "Which cerebral venous system drains the cortex?"}, {"answer": "Superior sagittal sinus", "aliases": ["superior sagittal sinus"], "clue": "Into which major dural sinus do superficial cerebral veins drain?"}, {"answer": "Deep veins", "aliases": ["deep veins", "deep cerebral veins"], "clue": "Which cerebral venous system drains internal deeper structures?"}, {"answer": "Straight sinus", "aliases": ["straight sinus"], "clue": "Into which dural sinus do deep cerebral veins drain?"}, {"answer": "Confluence of sinuses", "aliases": ["confluence of sinuses", "confluence"], "clue": "Which junction receives the main superior sagittal/straight sinus drainage before the transverse sinuses?"}, {"answer": "Transverse sinuses", "aliases": ["transverse sinuses", "transverse sinus"], "clue": "Which paired sinuses run along the outer margins of the tentorium cerebelli?"}, {"answer": "Sigmoid sinuses", "aliases": ["sigmoid sinuses", "sigmoid sinus"], "clue": "Which sinuses continue from the transverse sinuses toward the jugular outflow?"}, {"answer": "Internal jugular veins", "aliases": ["internal jugular veins", "internal jugular vein", "ijv", "ijvs"], "clue": "Into which major veins does cerebral venous sinus blood predominantly drain?"}, {"answer": "Cavernous sinus", "aliases": ["cavernous sinus"], "clue": "Which dural venous sinus lies on either side of the pituitary fossa?"}, {"answer": "Internal carotid artery", "aliases": ["internal carotid artery", "ica"], "clue": "Which artery is one of the structures contained within the cavernous sinus?"}, {"answer": "Abducens nerve", "aliases": ["abducens nerve", "cn vi", "cranial nerve vi"], "clue": "Which cranial nerve may be compressed by a carotid aneurysm within the cavernous sinus?"}, {"answer": "Superior petrosal sinus", "aliases": ["superior petrosal sinus"], "clue": "Which petrosal sinus runs along the superior aspect of petrous temporal bone and drains into the sigmoid sinus?"}, {"answer": "Inferior petrosal sinus", "aliases": ["inferior petrosal sinus"], "clue": "Which petrosal sinus runs along the inferior aspect of petrous temporal bone and drains directly to the internal jugular vein?"}]}];
+
+let selected = 0;
+let current = null;
+let step = 0;
+let score = 0;
+let streak = 0;
+let hints = 0;
+let reveals = 0;
+let hintUsed = false;
+let revealedSteps = new Set();
+let solvedAnswers = [];
+
+const setup = document.getElementById('setup');
+const game = document.getElementById('game');
+const results = document.getElementById('results');
+const picker = document.getElementById('picker');
+const answerInput = document.getElementById('answerInput');
+const feedback = document.getElementById('feedback');
+
+function norm(s){
+  return (s || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[’']/g,'')
+    .replace(/[–—]/g,'-')
+    .replace(/&/g,'and')
+    .replace(/[^a-z0-9 +\-\/]/g,'')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function buildPicker(){
+  picker.innerHTML = '';
+  LADDERS.forEach((l,i)=>{
+    const b = document.createElement('button');
+    b.type='button';
+    b.className='pick' + (i===selected ? ' active' : '');
+    b.innerHTML=`<strong>${l.title}</strong><span>${l.subtitle} • ${l.steps.length+1} rungs</span>`;
+    b.addEventListener('click',()=>{
+      selected=i;
+      document.querySelectorAll('.pick').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+    picker.appendChild(b);
+  });
+}
+
+function startLadder(index){
+  selected=index;
+  current=LADDERS[index];
+  step=0;
+  score=0;
+  streak=0;
+  hints=0;
+  reveals=0;
+  hintUsed=false;
+  revealedSteps=new Set();
+  solvedAnswers=[];
+
+  setup.classList.add('hidden');
+  results.classList.add('hidden');
+  game.classList.remove('hidden');
+
+  document.getElementById('ladderTitle').textContent=current.title;
+  document.getElementById('ladderSub').textContent=current.subtitle;
+  answerInput.value='';
+  render();
+  setFeedback('','');
+  setTimeout(()=>answerInput.focus(),20);
+}
+
+function render(){
+  const holder=document.getElementById('ladder');
+  holder.innerHTML='';
+
+  const total=current.steps.length+1;
+
+  const start=document.createElement('div');
+  start.className='rung start';
+  start.innerHTML=`<span class="rung-num">1</span>${current.start}`;
+  holder.appendChild(start);
+
+  current.steps.forEach((s,i)=>{
+    const connector=document.createElement('div');
+    connector.className='connector';
+    holder.appendChild(connector);
+
+    const rung=document.createElement('div');
+    const solved=i<step;
+    const isCurrent=i===step && step<current.steps.length;
+    const wasRevealed=revealedSteps.has(i);
+    rung.className='rung' + (solved ? (wasRevealed?' revealed':' solved') : isCurrent ? ' current' : '');
+    rung.innerHTML=`<span class="rung-num">${i+2}</span>${solved ? solvedAnswers[i] : isCurrent ? '???' : '—'}`;
+    holder.appendChild(rung);
+  });
+
+  const totalSteps=current.steps.length;
+  document.getElementById('rungStat').textContent=`${Math.min(step+1,totalSteps)} / ${totalSteps}`;
+  document.getElementById('scoreStat').textContent=score;
+  document.getElementById('streakStat').textContent=streak;
+  document.getElementById('hintStat').textContent=hints;
+  document.getElementById('revealStat').textContent=reveals;
+
+  if(step<current.steps.length){
+    document.getElementById('clueLabel').textContent=`Rung ${step+2} of ${total}`;
+    document.getElementById('clueText').textContent=current.steps[step].clue;
+    answerInput.disabled=false;
+    document.getElementById('hintBtn').disabled=hintUsed;
+    document.getElementById('revealBtn').disabled=false;
+  }
+}
+
+function submitAnswer(){
+  if(step>=current.steps.length)return;
+  const text=answerInput.value.trim();
+  if(!text){setFeedback('Type an answer first.','info');return}
+
+  const target=current.steps[step];
+  const accepted=[target.answer,...target.aliases].map(norm);
+
+  if(accepted.includes(norm(text))){
+    const points=hintUsed?1:2;
+    score+=points;
+    streak++;
+    solvedAnswers[step]=target.answer;
+    setFeedback(`Correct — +${points} point${points===1?'':'s'}.`,'good');
+    step++;
+    hintUsed=false;
+    answerInput.value='';
+
+    if(step>=current.steps.length){
+      render();
+      setTimeout(finish,350);
+    }else{
+      render();
+      setTimeout(()=>answerInput.focus(),20);
+    }
+  }else{
+    streak=0;
+    setFeedback('Not quite — try again.','bad');
+    document.getElementById('streakStat').textContent=streak;
+    answerInput.select();
+  }
+}
+
+function hint(){
+  if(step>=current.steps.length || hintUsed)return;
+  hintUsed=true;
+  hints++;
+  const a=current.steps[step].answer;
+  setFeedback(`Hint: the answer starts with “${a[0].toUpperCase()}”.`,'info');
+  render();
+  answerInput.focus();
+}
+
+function reveal(){
+  if(step>=current.steps.length)return;
+  const target=current.steps[step];
+  revealedSteps.add(step);
+  solvedAnswers[step]=target.answer;
+  reveals++;
+  streak=0;
+  setFeedback(`Revealed: ${target.answer}`,'info');
+  step++;
+  hintUsed=false;
+  answerInput.value='';
+
+  if(step>=current.steps.length){
+    render();
+    setTimeout(finish,350);
+  }else{
+    render();
+    setTimeout(()=>answerInput.focus(),20);
+  }
+}
+
+function finish(){
+  game.classList.add('hidden');
+  results.classList.remove('hidden');
+  const max=current.steps.length*2;
+  document.getElementById('finalScore').textContent=`${score} / ${max}`;
+  document.getElementById('finalSummary').textContent=
+    `${current.title} • ${hints} hint${hints===1?'':'s'} • ${reveals} reveal${reveals===1?'':'s'}`;
+}
+
+function setFeedback(text,type){
+  feedback.textContent=text;
+  feedback.className=`feedback ${type||''}`;
+}
+
+document.getElementById('answerForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  submitAnswer();
+});
+document.getElementById('hintBtn').addEventListener('click',hint);
+document.getElementById('revealBtn').addEventListener('click',reveal);
+document.getElementById('startBtn').addEventListener('click',()=>startLadder(selected));
+document.getElementById('randomBtn').addEventListener('click',()=>{
+  startLadder(Math.floor(Math.random()*LADDERS.length));
+});
+document.getElementById('againBtn').addEventListener('click',()=>{
+  results.classList.add('hidden');
+  setup.classList.remove('hidden');
+  buildPicker();
+});
+document.getElementById('repeatBtn').addEventListener('click',()=>startLadder(selected));
+
+buildPicker();
+})();
+</script>
+</body>
+</html>
